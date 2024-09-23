@@ -1,37 +1,34 @@
-const path = require("path");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
-  entry: "./js/main.ts",
-  devtool: "inline-source-map",
+  mode: 'development',
+  entry: './js/main.ts',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true
-        }
-      }
-    ]
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: ['.tsx', '.ts', '.js'],
   },
   devServer: {
-    contentBase: "./dist"
+    static: './dist',
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Development"
-    })
+      title: 'Namespace & Declaration merging'
+    }),
   ],
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist")
-  }
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
 };
